@@ -11,12 +11,12 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,200&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 * {
   margin: 0;
   padding: 0;
   background: #19274a;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "PT Sans", sans-serif;
 }
 </style>
