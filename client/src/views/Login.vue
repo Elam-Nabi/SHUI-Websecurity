@@ -1,10 +1,10 @@
 <template>
   <div class="header-container">
     <img class="top-logo" :src="require(`../assets/shuiredlogo.jpg`)" />
-    ><img class="header-logo" :src="require(`../assets/shuilogo.jpg`)" />
-    <form>
+    <img class="header-logo" :src="require(`../assets/shuilogo.jpg`)" />
+    <form @submit.prevent>
       <input type="text" name="" id="name" placeholder="Användarnamn" />
-      <input type="text" name="" id="password" placeholder="Lösenord" />
+      <input type="password" name="" id="password" placeholder="Lösenord" />
       <button>Logga in</button>
     </form>
     <img class="bottom-logo" :src="require(`../assets/bottomlogo.jpg`)" />
@@ -69,8 +69,10 @@ export default {
     width: 250px;
     height: 50px;
     margin: 50px;
+    border: none;
     outline: none;
     font-size: 1rem;
+    cursor: pointer;
     margin-top: 30px;
     font-weight: bold;
     border-radius: 4px;
