@@ -26,8 +26,8 @@ export default {
   justify-content: center;
 
   .top-logo {
-    position: absolute;
     margin-left: 20px;
+    position: absolute;
   }
 
   .header-logo {
@@ -50,14 +50,14 @@ export default {
     }
 
     input {
+      width: 250px;
       padding: 10px;
-      text-align: center;
+      font-size: 20px;
       margin-left: 50px;
+      border-radius: 3px;
+      text-align: center;
       letter-spacing: 0.3rem;
       border: 2px solid #fff;
-      font-size: 20px;
-      border-radius: 3px;
-      width: 250px;
     }
     ::placeholder {
       color: #fff;
@@ -66,15 +66,15 @@ export default {
   }
 
   button {
-    margin: 50px;
-    margin-top: 30px;
     width: 250px;
-    font-weight: bold;
     height: 50px;
-    border-radius: 4px;
-    background: #fff;
+    margin: 50px;
     outline: none;
     font-size: 1rem;
+    margin-top: 30px;
+    font-weight: bold;
+    border-radius: 4px;
+    background: #fff;
   }
 
   .bottom-logo {
