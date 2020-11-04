@@ -1,20 +1,57 @@
 <template>
   <div class="flow-container">
     <img class="top-logo" :src="require(`../assets/shuiredlogo.jpg`)" />
-    <div class="notification" v-for="(item, i) in data" :key="item._id">
-      <p>
-        <span class="tag is-primary"> {{ i + 1 }} </span>
-        {{ item.description }}
-      </p>
+    <div></div>
+    <div v-for="item in items" :key="item._id">
+      <div class="description-container">
+        <div class="item-container">
+          <h6>{{ item.date }}</h6>
+          <p>
+            {{ item.description }}
+          </p>
+          <h4>Chupacabra</h4>
+        </div>
+      </div>
     </div>
+    <form @submit.prevent>
+      <input
+        class="input-description"
+        v-model="description"
+        type="text"
+        placeholder="What's on your stream?"
+      />
+    </form>
+    <button @click="addItem" :disabled="!description">Add streams</button>
   </div>
 </template>
 
 <script>
-import { getFlowItems } from "../use/getFlowData";
+import axios from "axios";
 export default {
-  setup() {
-    return getFlowItems();
+  name: "Flow",
+  data() {
+    return {
+      items: [],
+      description: "",
+    };
+  },
+  async mounted() {
+    const response = await axios.get("api/FlowItems/");
+    this.items = response.data;
+  },
+  methods: {
+    async addItem() {
+      const response = await axios.post("api/FlowItems/", {
+        description: this.description,
+      });
+
+      this.items.push(response.data);
+      this.description = "";
+    },
+    async removeItem(item, i) {
+      await axios.delete("api/FlowItems/" + item._id);
+      this.items.splice(i, 1);
+    },
   },
 };
 </script>
@@ -27,7 +64,86 @@ export default {
 
   .top-logo {
     position: fixed;
-    margin-left: 10px;
+    margin-left: 20px;
   }
+
+  .description-container {
+    margin: 17px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+
+    .item-container {
+      width: 300px;
+      height: 130px;
+      background: white;
+
+      h6 {
+        font-size: 12px;
+        margin-top: 10px;
+        margin-left: 10px;
+        color: lightgray;
+      }
+
+      p {
+        font-size: 16px;
+        margin-left: 10px;
+        margin-top: 10px;
+      }
+
+      h4 {
+        font-size: 14px;
+        margin-top: 40px;
+        margin-left: 10px;
+        font-weight: bolder;
+        font-style: italic;
+        &:before {
+          content: "-";
+        }
+      }
+
+      h6,
+      p,
+      h4 {
+        background: white;
+        font-family: "PT Sans", sans-serif;
+      }
+    }
+  }
+
+  .input-description {
+    width: 250px;
+    color: #fff;
+    outline: none;
+    padding: 10px;
+    font-size: 15px;
+    margin-left: 50px;
+    margin-top: 290px;
+    position: absolute;
+    text-align: center;
+    border-radius: 3px;
+    letter-spacing: 0.1rem;
+    border: 2px solid #fff;
+  }
+  ::placeholder {
+    color: #fff;
+    font-family: "Cantarell", sans-serif;
+  }
+}
+
+button {
+  width: 250px;
+  height: 50px;
+  margin: 50px;
+  border: none;
+  outline: none;
+  color: #000;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 350px;
+  font-weight: bold;
+  border-radius: 4px;
+  background: #fff;
 }
 </style>
