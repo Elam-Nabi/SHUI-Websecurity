@@ -3,6 +3,11 @@ import App from './App.vue'
 import store from './store'
 import VueCompositionAPI from '@vue/composition-api'
 import router from './router'
+const moment = require("moment");
+
+Vue.use(require("vue-moment"), {
+  moment,
+});
 
 Vue.use(VueCompositionAPI)
 
