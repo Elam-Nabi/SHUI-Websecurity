@@ -5,7 +5,7 @@
     <div v-for="item in items" :key="item._id">
       <div class="description-container">
         <div class="item-container">
-          <h6>{{ item.date }}</h6>
+          <h6>{{ item.date | moment("dddd, MMMM Do YYYY, h:mm:ss a") }}</h6>
           <p>
             {{ item.description }}
           </p>
@@ -119,23 +119,23 @@ export default {
       }
     }
     .tags-container {
-      margin-left: 176px;
       margin-top: 4px;
+      margin-left: 176px;
 
       h5 {
-        display: inline-block;
         margin: 2px;
-        font-weight: 400;
         font-size: 14px;
+        font-weight: 400;
         color: #00b2ff;
+        display: inline-block;
       }
     }
     .border-bottom {
-      position: absolute;
+      width: 30px;
       height: 30px;
       margin-top: 130px;
       margin-left: 305px;
-      width: 30px;
+      position: absolute;
     }
   }
 
