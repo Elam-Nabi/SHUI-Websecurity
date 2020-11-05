@@ -2,9 +2,21 @@
   <div class="header-container">
     <img class="top-logo" :src="require(`../assets/shuiredlogo.jpg`)" />
     <img class="header-logo" :src="require(`../assets/shuilogo.jpg`)" />
-    <form @submit.prevent>
-      <input type="text" name="" id="name" placeholder="Användarnamn" />
-      <input type="password" name="" id="password" placeholder="Lösenord" />
+    <form @submit.prevent="loginUser">
+      <input
+        type="text"
+        name=""
+        v-model="username"
+        id="name"
+        placeholder="Användarnamn"
+      />
+      <input
+        type="password"
+        name=""
+        v-model="password"
+        id="password"
+        placeholder="Lösenord"
+      />
       <button>Logga in</button>
     </form>
     <img class="bottom-logo" :src="require(`../assets/bottomlogo.jpg`)" />
@@ -12,9 +24,22 @@
 </template>
 
 <script>
+import { reactive, toRefs } from "@vue/composition-api";
+import axios from "axios";
 export default {
-  setup() {
-    return {};
+  setup(props, { root }) {
+    const input = reactive({
+      username: null,
+      password: null,
+    });
+
+    const loginUser = async () => {
+      const response = await axios.post("/api/Users", input);
+      const data = response.data;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+      root.$router.push({ name: "flow" });
+    };
+    return { ...toRefs(input), loginUser };
   },
 };
 </script>
@@ -52,6 +77,7 @@ export default {
     input {
       width: 250px;
       padding: 10px;
+      outline: none;
       font-size: 20px;
       margin-left: 50px;
       border-radius: 3px;

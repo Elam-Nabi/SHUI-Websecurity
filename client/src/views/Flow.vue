@@ -70,9 +70,9 @@ export default {
   .description-container {
     margin: 17px;
     display: grid;
+    margin-top: 100px;
     align-items: center;
     justify-content: center;
-    margin-top: 100px;
 
     .item-container {
       width: 300px;
@@ -88,16 +88,16 @@ export default {
 
       p {
         font-size: 16px;
-        margin-left: 10px;
         margin-top: 10px;
+        margin-left: 10px;
       }
 
       h4 {
         font-size: 14px;
         margin-top: 40px;
         margin-left: 10px;
-        font-weight: bolder;
         font-style: italic;
+        font-weight: bolder;
         &:before {
           content: "-";
         }

@@ -1,9 +1,10 @@
 const { Router } = require('express')
 const FlowItemModel = require('../../models/FlowItem')
+const { userVerify } = require('./Auth')
 
 const router = Router()
 
-router.get('/', async (req, res) => {
+router.get('/', userVerify, async (req, res) => {
     try {
         const FlowItemModels = await FlowItemModel.find()
         if (!FlowItemModels) throw new Error('No Stream')
