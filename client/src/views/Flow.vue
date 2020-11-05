@@ -5,10 +5,12 @@
     <div v-for="item in items" :key="item._id">
       <div class="description-container">
         <div class="item-container">
-          <h6>{{ item.date | moment("dddd, MMMM Do YYYY, h:mm:ss a") }}</h6>
+          <h6>{{ item.date | moment("dddd MMMM D, h:mm") }}</h6>
           <p>
             {{ item.description }}
           </p>
+          <div></div>
+          <hr class="line" />
           <h4>Chupacabra</h4>
         </div>
         <div class="tags-container">
@@ -99,16 +101,19 @@ export default {
         margin-top: 10px;
         margin-left: 10px;
       }
+      hr {
+        width: 23px;
+        margin-top: 50px;
+        margin-left: 15px;
+        position: absolute;
+      }
 
       h4 {
         font-size: 14px;
         margin-top: 40px;
-        margin-left: 10px;
+        margin-left: 45px;
         font-style: italic;
         font-weight: bolder;
-        &:before {
-          content: "-";
-        }
       }
 
       h6,
