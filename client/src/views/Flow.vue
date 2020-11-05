@@ -1,6 +1,11 @@
 <template>
   <div class="flow-container">
-    <img class="top-logo" :src="require(`../assets/shuiredlogo.jpg`)" />
+    <Settings :toggleOpen="toggleOpen" />
+    <img
+      class="top-logo"
+      @click="toggleSettings"
+      :src="require(`../assets/shuiredlogo.jpg`)"
+    />
     <div></div>
     <div v-for="item in items" :key="item._id">
       <div class="description-container">
@@ -36,13 +41,18 @@
 </template>
 
 <script>
+import Settings from "./Settings";
 import axios from "axios";
 export default {
   name: "Flow",
+  components: {
+    Settings,
+  },
   data() {
     return {
       items: [],
       description: "",
+      toggleOpen: false,
     };
   },
   async mounted() {
@@ -62,6 +72,9 @@ export default {
       await axios.delete("api/FlowItems/" + item._id);
       this.items.splice(i, 1);
     },
+    toggleSettings() {
+      this.toggleOpen = !this.toggleOpen;
+    },
   },
 };
 </script>
@@ -73,6 +86,7 @@ export default {
   justify-content: center;
 
   .top-logo {
+    z-index: 2;
     position: fixed;
     margin-left: 20px;
   }
@@ -152,9 +166,9 @@ export default {
     font-size: 15px;
     margin-left: 50px;
     margin-top: 290px;
-    position: absolute;
     text-align: center;
     border-radius: 3px;
+    position: absolute;
     letter-spacing: 0.1rem;
     border: 2px solid #fff;
   }
