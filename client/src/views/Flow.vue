@@ -11,6 +11,14 @@
           </p>
           <h4>Chupacabra</h4>
         </div>
+        <div class="tags-container">
+          <h5>#stockholm</h5>
+          <h5>#tram</h5>
+        </div>
+        <img
+          class="border-bottom"
+          :src="require(`../assets/borderbottom.jpg`)"
+        />
       </div>
     </div>
     <form @submit.prevent>
@@ -68,14 +76,14 @@ export default {
   }
 
   .description-container {
-    margin: 17px;
+    margin: 10px;
     display: grid;
-    margin-top: 100px;
+    margin-top: 10px;
     align-items: center;
     justify-content: center;
 
     .item-container {
-      width: 300px;
+      width: 335px;
       height: 130px;
       background: white;
 
@@ -109,6 +117,25 @@ export default {
         background: white;
         font-family: "PT Sans", sans-serif;
       }
+    }
+    .tags-container {
+      margin-left: 176px;
+      margin-top: 4px;
+
+      h5 {
+        display: inline-block;
+        margin: 2px;
+        font-weight: 400;
+        font-size: 14px;
+        color: #00b2ff;
+      }
+    }
+    .border-bottom {
+      position: absolute;
+      height: 30px;
+      margin-top: 130px;
+      margin-left: 305px;
+      width: 30px;
     }
   }
 
