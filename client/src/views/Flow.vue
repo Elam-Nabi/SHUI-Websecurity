@@ -188,8 +188,8 @@ button {
   font-size: 1rem;
   cursor: pointer;
   margin-top: 350px;
-  font-weight: bold;
   border-radius: 4px;
   background: #fff;
+  font-weight: bolder;
 }
 </style>
