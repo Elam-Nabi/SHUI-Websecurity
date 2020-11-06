@@ -111,7 +111,7 @@ export default {
 
     input[type="checkbox"] {
       margin-top: 20px;
-      margin-left: 109px;
+      margin-left: 111px;
       border-radius: 5px;
       transform: scale(4.1);
       box-shadow: inset 1px 0px 5px 5px #fff;

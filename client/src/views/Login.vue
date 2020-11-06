@@ -78,6 +78,7 @@ export default {
       width: 250px;
       padding: 10px;
       outline: none;
+      color: #fff;
       font-size: 20px;
       margin-left: 50px;
       border-radius: 3px;
