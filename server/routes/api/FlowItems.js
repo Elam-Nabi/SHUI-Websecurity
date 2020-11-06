@@ -1,6 +1,9 @@
 const { Router } = require('express')
 const FlowItemModel = require('../../models/FlowItem')
 const { userVerify } = require('./Auth')
+require('dotenv/config')
+const Cryptr = require('cryptr')
+const cryptr = new Cryptr(process.env.SECRET)
 
 const router = Router()
 
@@ -17,13 +20,22 @@ router.get('/', userVerify, async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
-    const newFlowItemModel = new FlowItemModel(req.body)
-    console.log(req.body)
+router.post('/', userVerify, async (req, res) => {
+    const encryptedDescription = cryptr.encrypt(req.body.description)
+    const flowItemModel = new FlowItemModel({
+        description: encryptedDescription,
+        tags: req.body.tags
+    })
     try {
-        const FlowItemModel = await newFlowItemModel.save()
-        if (!FlowItemModel) throw new Error('Something went wrong saving the Stream')
-        res.status(200).json(FlowItemModel)
+        const newFlowItem = await flowItemModel.save()
+        console.log(newFlowItem)
+        if (!newFlowItem) throw new Error('Something went wrong saving the Stream')
+
+        res.status(200).json({
+            date: newFlowItem.date,
+            description: cryptr.decrypt(newFlowItem.description),
+            tags: newFlowItem.tags
+        })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

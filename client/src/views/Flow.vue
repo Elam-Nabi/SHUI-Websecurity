@@ -14,6 +14,7 @@
           <p>
             {{ item.description }}
           </p>
+          <h1>{{ item.tags }}</h1>
           <div></div>
           <hr class="line" />
           <h4>Chupacabra</h4>
@@ -31,12 +32,18 @@
     <form @submit.prevent>
       <input
         class="input-description"
-        v-model="description"
+        v-model="input.description"
         type="text"
         placeholder="What's on your stream?"
       />
+      <input
+        type="text"
+        v-model="input.tags"
+        class="input-tags"
+        placeholder="Do you want to add tags?"
+      />
     </form>
-    <button @click="addItem" :disabled="!description">Add streams</button>
+    <button @click="addItem()" :disabled="!input">Add streams</button>
   </div>
 </template>
 
@@ -52,7 +59,12 @@ export default {
     return {
       items: [],
       description: "",
+      tags: "",
       toggleOpen: false,
+      input: {
+        description: null,
+        tags: null,
+      },
     };
   },
   async mounted() {
@@ -61,12 +73,9 @@ export default {
   },
   methods: {
     async addItem() {
-      const response = await axios.post("api/FlowItems/", {
-        description: this.description,
-      });
-
+      const response = await axios.post("api/FlowItems/", this.input);
       this.items.push(response.data);
-      this.description = "";
+      this.input = {};
     },
     async removeItem(item, i) {
       await axios.delete("api/FlowItems/" + item._id);
@@ -176,6 +185,25 @@ export default {
     color: #fff;
     font-family: "Cantarell", sans-serif;
   }
+}
+
+.input-tags {
+  width: 250px;
+  color: #fff;
+  outline: none;
+  padding: 10px;
+  font-size: 15px;
+  margin-left: 50px;
+  margin-top: 240px;
+  text-align: center;
+  border-radius: 3px;
+  position: absolute;
+  letter-spacing: 0.1rem;
+  border: 2px solid #fff;
+}
+::placeholder {
+  color: #fff;
+  font-family: "Cantarell", sans-serif;
 }
 
 button {
