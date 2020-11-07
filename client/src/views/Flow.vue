@@ -14,14 +14,12 @@
           <p>
             {{ item.description }}
           </p>
-          <h1>{{ item.tags }}</h1>
           <div></div>
           <hr class="line" />
           <h4>Chupacabra</h4>
         </div>
         <div class="tags-container">
-          <h5>#stockholm</h5>
-          <h5>#tram</h5>
+          <h5>{{ item.tags }}</h5>
         </div>
         <img
           class="border-bottom"
@@ -153,6 +151,7 @@ export default {
       h5 {
         margin: 2px;
         font-size: 14px;
+        margin-left: 43px;
         font-weight: 400;
         color: #00b2ff;
         display: inline-block;
