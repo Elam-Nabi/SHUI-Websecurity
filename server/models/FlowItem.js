@@ -12,6 +12,10 @@ const FlowItemSchema = new Schema({
     date: {
         type: Date,
         default: Date.now,
+    },
+    userID: {
+        type: String,
+        required: true
     }
 })
 

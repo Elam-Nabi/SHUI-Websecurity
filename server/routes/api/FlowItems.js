@@ -9,10 +9,16 @@ const router = Router()
 
 router.get('/', userVerify, async (req, res) => {
     try {
-        const FlowItemModels = await FlowItemModel.find()
+        const FlowItemModels = await FlowItemModel.find({ userID: req.user.userID })
         if (!FlowItemModels) throw new Error('No Stream')
         const sorted = FlowItemModels.sort((a, b) => {
             return new Date(a.date).getTime() - new Date(b.date).getTime()
+        }).map(tag => {
+            return {
+                date: tag.date,
+                tags: tag.tags,
+                description: cryptr.decrypt(tag.description)
+            }
         })
         res.status(200).json(sorted)
     } catch (error) {
@@ -21,10 +27,12 @@ router.get('/', userVerify, async (req, res) => {
 })
 
 router.post('/', userVerify, async (req, res) => {
+    console.log(req.user.userID)
     const encryptedDescription = cryptr.encrypt(req.body.description)
     const flowItemModel = new FlowItemModel({
         description: encryptedDescription,
-        tags: req.body.tags
+        tags: req.body.tags,
+        userID: req.user.userID
     })
     try {
         const newFlowItem = await flowItemModel.save()

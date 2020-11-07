@@ -38,7 +38,7 @@
         type="text"
         v-model="input.tags"
         class="input-tags"
-        placeholder="Do you want to add tags?"
+        placeholder="Do you want to add a tag?"
       />
     </form>
     <button @click="addItem()" :disabled="!input">Add streams</button>
@@ -66,13 +66,13 @@ export default {
     };
   },
   async mounted() {
-    const response = await axios.get("api/FlowItems/");
+    const response = await axios.get("/api/FlowItems");
     this.items = response.data;
   },
   methods: {
     async addItem() {
-      const response = await axios.post("api/FlowItems/", this.input);
-      this.items.push(response.data);
+      await axios.post("api/FlowItems/", this.input);
+      // this.items.push(response.data);
       this.input = {};
     },
     async removeItem(item, i) {
@@ -123,8 +123,9 @@ export default {
         margin-left: 10px;
       }
       hr {
+        height: 3px;
         width: 23px;
-        margin-top: 50px;
+        margin-top: 48px;
         margin-left: 15px;
         position: absolute;
       }

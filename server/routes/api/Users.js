@@ -8,7 +8,10 @@ const router = Router()
 router.post('/', async (req, res) => {
     try {
         const UserModel = await User.findOne({ username: req.body.username }).exec()
-        const token = jwt.sign(UserModel.username, process.env.SECRET)
+        const token = jwt.sign({
+            userID: UserModel._id,
+            username: UserModel.username
+        }, process.env.SECRET)
         res.status(200).json({
             username: UserModel.username,
             token
