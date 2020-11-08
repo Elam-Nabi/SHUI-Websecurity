@@ -3,7 +3,7 @@
     <h1>streams</h1>
     <div class="tags-container">
       <div class="tag-items">
-        <h5>{{ tag }}</h5>
+        <h5 v-for="tag in tags" :key="tag._id">{{ tag.tag }}</h5>
         <button class="x-button"><span>x</span></button>
       </div>
     </div>
@@ -21,23 +21,28 @@
 </template>
 
 <script>
-import { ref } from "@vue/composition-api";
+import { onMounted, ref } from "@vue/composition-api";
 import axios from "axios";
 export default {
   props: ["toggleOpen"],
   setup() {
     let newTag = ref("");
     let tag = ref("");
+    let tags = ref([]);
 
     async function addTags() {
       tag = newTag;
-      const response = await axios.post("api/FlowItems/", newTag);
-      console.log(newTag);
-      newTag.value.push(response.data);
-      newTag = {};
+      const response = await axios.post("api/tags/", tag);
+      tags.value.push(response.data);
+      newTag.value = "";
     }
 
-    return { newTag, addTags, tag };
+    onMounted(async () => {
+      const response = await axios.get("/api/tags");
+      tags.value = response.data;
+    });
+
+    return { newTag, addTags, tag, tags };
   },
 };
 </script>
