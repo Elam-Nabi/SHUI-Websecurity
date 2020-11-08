@@ -37,6 +37,7 @@ export default {
       const response = await axios.post("/api/Users", input);
       const data = response.data;
       axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+      sessionStorage.setItem("member", JSON.stringify(data));
       root.$router.push({ name: "flow" });
     };
     return { ...toRefs(input), loginUser };
@@ -78,6 +79,7 @@ export default {
       width: 250px;
       padding: 10px;
       outline: none;
+      color: #fff;
       font-size: 20px;
       margin-left: 50px;
       border-radius: 3px;

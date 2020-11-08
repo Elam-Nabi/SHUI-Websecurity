@@ -5,10 +5,18 @@ const FlowItemSchema = new Schema({
         type: String,
         required: true,
     },
+    tags: {
+        type: String,
+        required: true,
+    },
     date: {
         type: Date,
         default: Date.now,
     },
+    userID: {
+        type: String,
+        required: true
+    }
 })
 
 const FlowItem = model('flowItem', FlowItemSchema)

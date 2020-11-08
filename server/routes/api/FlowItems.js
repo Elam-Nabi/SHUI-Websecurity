@@ -1,15 +1,24 @@
 const { Router } = require('express')
 const FlowItemModel = require('../../models/FlowItem')
 const { userVerify } = require('./Auth')
+require('dotenv/config')
+const Cryptr = require('cryptr')
+const cryptr = new Cryptr(process.env.SECRET)
 
 const router = Router()
 
 router.get('/', userVerify, async (req, res) => {
     try {
-        const FlowItemModels = await FlowItemModel.find()
+        const FlowItemModels = await FlowItemModel.find({ userID: req.user.userID })
         if (!FlowItemModels) throw new Error('No Stream')
         const sorted = FlowItemModels.sort((a, b) => {
             return new Date(a.date).getTime() - new Date(b.date).getTime()
+        }).map(tag => {
+            return {
+                date: tag.date,
+                tags: tag.tags,
+                description: cryptr.decrypt(tag.description)
+            }
         })
         res.status(200).json(sorted)
     } catch (error) {
@@ -17,13 +26,24 @@ router.get('/', userVerify, async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
-    const newFlowItemModel = new FlowItemModel(req.body)
-    console.log(req.body)
+router.post('/', userVerify, async (req, res) => {
+    console.log(req.user.userID)
+    const encryptedDescription = cryptr.encrypt(req.body.description)
+    const flowItemModel = new FlowItemModel({
+        description: encryptedDescription,
+        tags: req.body.tags,
+        userID: req.user.userID
+    })
     try {
-        const FlowItemModel = await newFlowItemModel.save()
-        if (!FlowItemModel) throw new Error('Something went wrong saving the Stream')
-        res.status(200).json(FlowItemModel)
+        const newFlowItem = await flowItemModel.save()
+        console.log(newFlowItem)
+        if (!newFlowItem) throw new Error('Something went wrong saving the Stream')
+
+        res.status(200).json({
+            date: newFlowItem.date,
+            description: cryptr.decrypt(newFlowItem.description),
+            tags: newFlowItem.tags
+        })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

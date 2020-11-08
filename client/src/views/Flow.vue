@@ -19,8 +19,7 @@
           <h4>Chupacabra</h4>
         </div>
         <div class="tags-container">
-          <h5>#stockholm</h5>
-          <h5>#tram</h5>
+          <h5>{{ item.tags }}</h5>
         </div>
         <img
           class="border-bottom"
@@ -31,12 +30,18 @@
     <form @submit.prevent>
       <input
         class="input-description"
-        v-model="description"
+        v-model="input.description"
         type="text"
         placeholder="What's on your stream?"
       />
+      <input
+        type="text"
+        v-model="input.tags"
+        class="input-tags"
+        placeholder="Do you want to add a tag?"
+      />
     </form>
-    <button @click="addItem" :disabled="!description">Add streams</button>
+    <button @click="addItem()" :disabled="!input">Add streams</button>
   </div>
 </template>
 
@@ -52,21 +57,23 @@ export default {
     return {
       items: [],
       description: "",
+      tags: "",
       toggleOpen: false,
+      input: {
+        description: null,
+        tags: null,
+      },
     };
   },
   async mounted() {
-    const response = await axios.get("api/FlowItems/");
+    const response = await axios.get("/api/FlowItems");
     this.items = response.data;
   },
   methods: {
     async addItem() {
-      const response = await axios.post("api/FlowItems/", {
-        description: this.description,
-      });
-
-      this.items.push(response.data);
-      this.description = "";
+      await axios.post("api/FlowItems/", this.input);
+      // this.items.push(response.data);
+      this.input = {};
     },
     async removeItem(item, i) {
       await axios.delete("api/FlowItems/" + item._id);
@@ -116,8 +123,9 @@ export default {
         margin-left: 10px;
       }
       hr {
+        height: 3px;
         width: 23px;
-        margin-top: 50px;
+        margin-top: 48px;
         margin-left: 15px;
         position: absolute;
       }
@@ -144,6 +152,7 @@ export default {
       h5 {
         margin: 2px;
         font-size: 14px;
+        margin-left: 43px;
         font-weight: 400;
         color: #00b2ff;
         display: inline-block;
@@ -176,6 +185,25 @@ export default {
     color: #fff;
     font-family: "Cantarell", sans-serif;
   }
+}
+
+.input-tags {
+  width: 250px;
+  color: #fff;
+  outline: none;
+  padding: 10px;
+  font-size: 15px;
+  margin-left: 50px;
+  margin-top: 240px;
+  text-align: center;
+  border-radius: 3px;
+  position: absolute;
+  letter-spacing: 0.1rem;
+  border: 2px solid #fff;
+}
+::placeholder {
+  color: #fff;
+  font-family: "Cantarell", sans-serif;
 }
 
 button {

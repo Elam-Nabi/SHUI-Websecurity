@@ -3,7 +3,7 @@
     <h1>streams</h1>
     <div class="tags-container">
       <div class="stockholm-tag">
-        <h5>#stockholm</h5>
+        <h5>{{ tag }}</h5>
         <img :src="require(`../assets/xlogo.jpg`)" />
       </div>
       <div class="tram-tag">
@@ -11,17 +11,38 @@
         <img class="top-logo" :src="require(`../assets/xlogo.jpg`)" />
       </div>
     </div>
+    <input
+      type="text"
+      class="input-tags"
+      v-model="newTag"
+      placeholder="add new tag"
+    />
     <div class="checkbox-container">
-      <h1>smooth_criminal</h1>
-      <input type="checkbox" name="checkbox" />
+      <button @click="addTags()">add tag</button>
     </div>
     <button>Shit, they're on to me!</button>
   </div>
 </template>
 
 <script>
+import { ref } from "@vue/composition-api";
+import axios from "axios";
 export default {
   props: ["toggleOpen"],
+  setup() {
+    let newTag = ref("");
+    let tag = ref("");
+
+    async function addTags() {
+      console.log(tag);
+      tag = newTag;
+      const response = await axios.post("api/FlowItems/", newTag);
+      newTag.push(response.data);
+      newTag = {};
+    }
+
+    return { newTag, addTags, tag };
+  },
 };
 </script>
 
@@ -111,7 +132,7 @@ export default {
 
     input[type="checkbox"] {
       margin-top: 20px;
-      margin-left: 109px;
+      margin-left: 111px;
       border-radius: 5px;
       transform: scale(4.1);
       box-shadow: inset 1px 0px 5px 5px #fff;
