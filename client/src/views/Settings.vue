@@ -2,25 +2,21 @@
   <div v-show="toggleOpen" class="settings-container">
     <h1>streams</h1>
     <div class="tags-container">
-      <div class="stockholm-tag">
+      <div class="tag-items">
         <h5>{{ tag }}</h5>
-        <img :src="require(`../assets/xlogo.jpg`)" />
-      </div>
-      <div class="tram-tag">
-        <h5>#tram</h5>
-        <img class="top-logo" :src="require(`../assets/xlogo.jpg`)" />
+        <button class="x-button"><span>x</span></button>
       </div>
     </div>
-    <input
-      type="text"
-      class="input-tags"
-      v-model="newTag"
-      placeholder="add new tag"
-    />
     <div class="checkbox-container">
-      <button @click="addTags()">add tag</button>
+      <input
+        type="text"
+        class="input-tags"
+        v-model="newTag"
+        placeholder="add new tag"
+      />
+      <button class="addTags-btn" @click="addTags()"><span>✓</span></button>
     </div>
-    <button>Shit, they're on to me!</button>
+    <button class="bottom-btn">Shit, they're on to me!</button>
   </div>
 </template>
 
@@ -34,10 +30,10 @@ export default {
     let tag = ref("");
 
     async function addTags() {
-      console.log(tag);
       tag = newTag;
       const response = await axios.post("api/FlowItems/", newTag);
-      newTag.push(response.data);
+      console.log(newTag);
+      newTag.value.push(response.data);
       newTag = {};
     }
 
@@ -69,8 +65,7 @@ export default {
     display: flex;
     margin-left: 10px;
 
-    .stockholm-tag,
-    .tram-tag {
+    .tag-items {
       margin: 10px;
       width: 130px;
       opacity: 0.8;
@@ -80,48 +75,50 @@ export default {
       font-size: 16px;
       border-radius: 4px;
       background: #d66969;
-      border: 1px solid #d66969;
-    }
 
-    .stockholm-tag {
       h5 {
         font-weight: 400;
         font-style: italic;
         background: #d66969;
       }
-      img {
-        width: 30px;
+      .x-button {
+        outline: none;
         display: flex;
-        margin-top: -23px;
-        margin-left: 95px;
+        margin-top: -5px;
+        margin-left: 93px;
         position: absolute;
-        background: #fff;
-      }
-    }
+        border: 1px solid #fff;
+        border-radius: 0 5px 5px 0;
 
-    .tram-tag {
-      h5 {
-        font-weight: 400;
-        font-style: italic;
-        background: #d66969;
-      }
-      img {
-        width: 30px;
-        display: flex;
-        margin-top: -23px;
-        margin-left: 95px;
-        position: absolute;
+        span {
+          width: 100%;
+          opacity: 0.3;
+          font-size: 30px;
+          margin-top: -10px;
+          background: lightgrey;
+        }
       }
     }
   }
+
   .checkbox-container {
     width: 320px;
     height: 55px;
+    margin: 40px;
     display: flex;
     margin-left: 20px;
-    margin-top: 160px;
+    margin-top: 145px;
     border-radius: 4px;
     border: 1px solid white;
+
+    input {
+      color: #fff;
+      border: none;
+      outline: none;
+      font-size: 20px;
+      margin-left: 15px;
+      margin-bottom: 5px;
+    }
 
     h1 {
       font-size: 23px;
@@ -130,16 +127,24 @@ export default {
       margin-left: 12px;
     }
 
-    input[type="checkbox"] {
-      margin-top: 20px;
-      margin-left: 111px;
-      border-radius: 5px;
-      transform: scale(4.1);
+    .addTags-btn {
+      width: 55px;
+      height: 53px;
+      background: #fff;
+      margin-left: 263px;
+      position: absolute;
+      border: 1px solid #fff;
+      border-radius: 0px 4px 4px 0;
       box-shadow: inset 1px 0px 5px 5px #fff;
+
+      span {
+        font-size: 30px;
+        background: #fff;
+      }
     }
   }
 
-  button {
+  .bottom-btn {
     width: 320px;
     height: 50px;
     margin: 50px;
@@ -148,7 +153,7 @@ export default {
     color: #fff;
     cursor: pointer;
     font-weight: 500;
-    margin-top: 25px;
+    margin-top: -12px;
     margin-left: 20px;
     font-size: 1.3rem;
     border-radius: 4px;

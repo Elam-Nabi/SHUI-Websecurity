@@ -6,15 +6,13 @@
       @click="toggleSettings"
       :src="require(`../assets/shuiredlogo.jpg`)"
     />
-    <div></div>
-    <div v-for="item in items" :key="item._id">
+    <div class="stream-container" v-for="item in items" :key="item._id">
       <div class="description-container">
         <div class="item-container">
           <h6>{{ item.date | moment("dddd MMMM D, h:mm") }}</h6>
           <p>
             {{ item.description }}
           </p>
-          <div></div>
           <hr class="line" />
           <h4>Chupacabra</h4>
         </div>
@@ -71,8 +69,8 @@ export default {
   },
   methods: {
     async addItem() {
-      await axios.post("api/FlowItems/", this.input);
-      // this.items.push(response.data);
+      const postReq = await axios.post("api/FlowItems/", this.input);
+      this.items.push(postReq.data);
       this.input = {};
     },
     async removeItem(item, i) {
