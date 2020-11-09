@@ -94,6 +94,7 @@ export default {
     z-index: 2;
     position: fixed;
     margin-left: 20px;
+    border-radius: 0 0 3px 3px;
   }
 
   .description-container {
@@ -105,7 +106,7 @@ export default {
 
     .item-container {
       width: 335px;
-      height: 130px;
+      height: 170px;
       background: white;
 
       h6 {
@@ -159,7 +160,7 @@ export default {
     .border-bottom {
       width: 30px;
       height: 30px;
-      margin-top: 130px;
+      margin-top: 170px;
       margin-left: 305px;
       position: absolute;
     }
