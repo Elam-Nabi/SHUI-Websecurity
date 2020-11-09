@@ -35,4 +35,14 @@ router.post('/', userVerify, async (req, res) => {
     }
 })
 
+router.delete('/:id', userVerify, async (req, res) => {
+    try {
+        const removed = await FlowTagModel.findByIdAndDelete({ _id: req.params.id })
+        if (!removed) throw Error('Something went wrong ')
+        res.status(200).json(removed)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 module.exports = router

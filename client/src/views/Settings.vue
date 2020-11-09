@@ -2,7 +2,9 @@
   <div v-show="toggleOpen" class="settings-container">
     <h1>streams</h1>
     <div class="tags-container">
-      <h5 v-for="tag in tags" :key="tag._id">{{ tag.tag }} <span>x</span></h5>
+      <h5 v-for="tag in tags" :key="tag._id">
+        {{ tag.tag }} <span @click="removeTags(tag)">x</span>
+      </h5>
     </div>
     <div class="checkbox-container">
       <input
@@ -34,12 +36,18 @@ export default {
       newTag.value = "";
     }
 
+    async function removeTags(tag) {
+      const response = await axios.delete(`/api/tags/${tag._id}`);
+      tags.value.splice(response.data._id, 0);
+      tags.value = "";
+    }
+
     onMounted(async () => {
       const response = await axios.get("/api/tags");
       tags.value = response.data;
     });
 
-    return { newTag, addTags, tag, tags };
+    return { newTag, addTags, tag, tags, removeTags };
   },
 };
 </script>
