@@ -6,6 +6,8 @@ require('dotenv/config')
 
 const flowItemsRoutes = require('./routes/api/FlowItems')
 const userRoutes = require('./routes/api/Users')
+const tagsRoutes = require('./routes/api/FlowTags')
+const subscriptionRoutes = require('./routes/api/Subscriptions')
 
 app.use(cors());
 app.use(express.json());
@@ -19,5 +21,7 @@ mongoose.connect(process.env.MONGO_URI, { useUnifiedTopology: true, useNewUrlPar
 
 app.use('/api/FlowItems', flowItemsRoutes)
 app.use('/api/Users', userRoutes)
+app.use('/api/tags', tagsRoutes)
+app.use('/api/subscriptions', subscriptionRoutes)
 
 app.listen(PORT, () => console.log(`Server running at PORT: ${PORT}`))

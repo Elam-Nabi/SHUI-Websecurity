@@ -109,7 +109,7 @@ export default {
 
   .bottom-logo {
     position: fixed;
-    margin-top: 141%;
+    bottom: 0;
   }
 }
 </style>

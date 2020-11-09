@@ -6,20 +6,18 @@
       @click="toggleSettings"
       :src="require(`../assets/shuiredlogo.jpg`)"
     />
-    <div></div>
-    <div v-for="item in items" :key="item._id">
+    <div class="stream-container" v-for="item in items" :key="item._id">
       <div class="description-container">
         <div class="item-container">
           <h6>{{ item.date | moment("dddd MMMM D, h:mm") }}</h6>
           <p>
             {{ item.description }}
           </p>
-          <div></div>
           <hr class="line" />
           <h4>Chupacabra</h4>
         </div>
         <div class="tags-container">
-          <h5>{{ item.tags }}</h5>
+          <h5>#{{ item.tags }}</h5>
         </div>
         <img
           class="border-bottom"
@@ -71,8 +69,8 @@ export default {
   },
   methods: {
     async addItem() {
-      await axios.post("api/FlowItems/", this.input);
-      // this.items.push(response.data);
+      const postReq = await axios.post("api/FlowItems/", this.input);
+      this.items.push(postReq.data);
       this.input = {};
     },
     async removeItem(item, i) {
@@ -96,6 +94,7 @@ export default {
     z-index: 2;
     position: fixed;
     margin-left: 20px;
+    border-radius: 0 0 3px 3px;
   }
 
   .description-container {
@@ -107,7 +106,7 @@ export default {
 
     .item-container {
       width: 335px;
-      height: 130px;
+      height: 170px;
       background: white;
 
       h6 {
@@ -161,7 +160,7 @@ export default {
     .border-bottom {
       width: 30px;
       height: 30px;
-      margin-top: 130px;
+      margin-top: 170px;
       margin-left: 305px;
       position: absolute;
     }
