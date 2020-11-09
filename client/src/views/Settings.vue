@@ -6,6 +6,14 @@
         {{ tag.tag }} <span @click="removeTags(tag)">x</span>
       </h5>
     </div>
+    <h2>subscribe</h2>
+    <h5
+      v-for="tag in subscribeTags"
+      :key="tag.tags._id"
+      @click="subscribe(tag)"
+    >
+      #{{ tag.tags }}
+    </h5>
     <div class="checkbox-container">
       <input
         type="text"
@@ -28,6 +36,7 @@ export default {
     let newTag = ref("");
     let tag = ref("");
     let tags = ref([]);
+    const subscribeTags = ref([]);
 
     async function addTags() {
       tag = newTag;
@@ -36,18 +45,25 @@ export default {
       newTag.value = "";
     }
 
+    async function subscribe(tag) {
+      await axios.post("api/FlowItems/", tag);
+      location.reload();
+    }
+
     async function removeTags(tag) {
       const response = await axios.delete(`/api/tags/${tag._id}`);
-      tags.value.splice(response.data._id, 0);
+      tags.value.splice(response.data._id, 2);
       tags.value = "";
     }
 
     onMounted(async () => {
       const response = await axios.get("/api/tags");
+      const data = await axios.get("/api/subscriptions");
+      subscribeTags.value = data.data;
       tags.value = response.data;
     });
 
-    return { newTag, addTags, tag, tags, removeTags };
+    return { newTag, addTags, tag, tags, removeTags, subscribeTags, subscribe };
   },
 };
 </script>

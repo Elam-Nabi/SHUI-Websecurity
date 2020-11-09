@@ -17,7 +17,7 @@
           <h4>Chupacabra</h4>
         </div>
         <div class="tags-container">
-          <h5>{{ item.tags }}</h5>
+          <h5>#{{ item.tags }}</h5>
         </div>
         <img
           class="border-bottom"
