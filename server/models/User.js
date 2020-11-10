@@ -9,6 +9,9 @@ const UserSchema = new Schema({
         createIndexes: { unique: true },
     },
     password: { type: String, required: true },
+    userID: {
+        type: String
+    }
 });
 
 

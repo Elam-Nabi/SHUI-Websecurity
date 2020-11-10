@@ -26,7 +26,9 @@
     </div>
     <div class="button-container">
       <button class="addTags-btn" @click="addTags()"><span>✓</span></button>
-      <button class="bottom-btn">Shit, they're on to me!</button>
+      <button class="bottom-btn" @click="removeUser()">
+        Shit, they're on to me!
+      </button>
     </div>
   </div>
 </template>
@@ -36,7 +38,7 @@ import { onMounted, ref } from "@vue/composition-api";
 import axios from "axios";
 export default {
   props: ["toggleOpen"],
-  setup() {
+  setup(props, { root }) {
     let newTag = ref("");
     let tag = ref("");
     let tags = ref([]);
@@ -67,7 +69,23 @@ export default {
       tags.value = response.data;
     });
 
-    return { newTag, addTags, tag, tags, removeTags, subscribeTags, subscribe };
+    const removeUser = () => {
+      return axios.delete("/api/Users").then(() => {
+        root.$router.push({ name: "Home" });
+        sessionStorage.removeItem("member");
+      });
+    };
+
+    return {
+      newTag,
+      addTags,
+      tag,
+      tags,
+      removeTags,
+      subscribeTags,
+      subscribe,
+      removeUser,
+    };
   },
 };
 </script>
