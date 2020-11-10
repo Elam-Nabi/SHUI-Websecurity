@@ -47,6 +47,7 @@ export default {
       const response = await axios.post("api/tags/", tag);
       tags.value.push(response.data);
       newTag.value = "";
+      location.reload();
     }
 
     async function subscribe(tag) {
@@ -55,9 +56,8 @@ export default {
     }
 
     async function removeTags(tag) {
-      const response = await axios.delete(`/api/tags/${tag._id}`);
-      tags.value.splice(response.data._id, 2);
-      tags.value = "";
+      await axios.delete(`/api/tags/${tag._id}`);
+      location.reload();
     }
 
     onMounted(async () => {
