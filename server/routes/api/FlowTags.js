@@ -24,7 +24,6 @@ router.post('/', userVerify, async (req, res) => {
     })
     try {
         const newFlowTag = await flowTagModel.save()
-        console.log(newFlowTag)
         if (!newFlowTag) throw new Error('Something went wrong saving the Stream')
 
         res.status(200).json({
